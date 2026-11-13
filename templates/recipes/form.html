@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block content %}<div class="form-card"><h1>Submit a recipe</h1><p>User submissions may need admin approval before appearing publicly.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button class="button">Save recipe</button></form></div>{% endblock %}

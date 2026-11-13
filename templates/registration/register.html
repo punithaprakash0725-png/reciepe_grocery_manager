@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block content %}<div class="form-card"><h1>Create user account</h1><p>Admin accounts are created separately by the project owner.</p><form method="post">{% csrf_token %}{{ form.as_p }}<button class="button">Register</button></form></div>{% endblock %}

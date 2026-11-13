@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Grocery List | MealMate{% endblock %}
+{% block content %}
+<h1>🛒 Grocery List</h1>
+<p>Ingredients for the meals planned for the week starting {{ week_start }}.</p>
+{% for g in groups %}
+<section class="gcard">
+  <header class="ghead cat-{{ g.recipe.category|lower }}">
+    <span class="gemoji">{{ g.recipe.emoji }}</span>
+    <div><h2>{{ g.recipe.title }}</h2><small>{{ g.slots|join:" · " }}</small></div>
+  </header>
+  <ul class="gitems">{% for item in g.items %}<li><label><input type="checkbox"> {{ item }}</label></li>{% endfor %}</ul>
+</section>
+{% empty %}
+<div class="form-card"><p>Your list is empty. Add meals in the <a href="{% url 'weekly_planner' %}">weekly planner</a> first.</p></div>
+{% endfor %}
+{% if groups %}<button class="button" onclick="window.print()">Print grocery list</button>{% endif %}
+{% endblock %}

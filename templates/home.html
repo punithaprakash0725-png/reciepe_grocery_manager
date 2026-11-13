@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}MealMate | Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">YOUR WEEK, MADE EASIER</p>
+    <h1>Plan meals.<br><span class="grad">Shop smarter.</span></h1>
+    <p>Save recipes, organize your weekly meals, and create one grocery checklist from everything you plan to cook.</p>
+    <a class="button" href="{% url 'recipe_list' %}">Explore recipes</a>
+    {% if user.is_authenticated %}<a class="button secondary" href="{% url 'dashboard' %}">Go to dashboard</a>{% else %}<a class="button secondary" href="{% url 'register' %}">Get started free</a>{% endif %}
+  </div>
+  <div class="hero-art"><span>🥑</span><span>🥕</span><span>🍅</span><span>🥦</span><span>🍋</span><span>🥗</span></div>
+</section>
+
+<section class="strip">
+  <div class="strip-item s-green"><strong>{{ member_count }}</strong><span>Members joined</span></div>
+  <div class="strip-item s-orange"><strong>{{ recipe_count }}</strong><span>Recipes in the vault</span></div>
+  <div class="strip-item s-pink"><strong>{{ total_plan_count }}</strong><span>Meals planned</span></div>
+</section>
+
+<div class="heading-row"><h2>Popular recipes</h2><a href="{% url 'recipe_list' %}">See all →</a></div>
+<div class="rgrid">{% for recipe in recipes %}{% include "recipes/_card.html" %}{% empty %}<p>No recipes yet.</p>{% endfor %}</div>
+
+<h2>How it works</h2>
+<div class="steps">
+  <div class="step"><span>1</span><h3>Pick recipes</h3><p>Browse breakfast, lunch and dinner ideas.</p></div>
+  <div class="step"><span>2</span><h3>Plan your week</h3><p>Assign a recipe to each day and meal.</p></div>
+  <div class="step"><span>3</span><h3>Shop once</h3><p>Get one combined grocery checklist.</p></div>
+</div>
+{% endblock %}
+{% if not user.is_authenticated %}
+<div class="popup-overlay" id="popup">
+  <div class="popup">
+    <button class="popup-close" id="popupClose" aria-label="Close">✕</button>
+    <div class="popup-form">
+      <h2>Hello! 👋</h2>
+      <p>Sign in to your account</p>
+      <form method="post" action="{% url 'login' %}">{% csrf_token %}
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button class="button" type="submit">Sign in</button>
+      </form>
+      <p class="popup-small">Don't have an account? <a href="{% url 'register' %}">Create one</a></p>
+    </div>
+    <div class="popup-side">
+      <div class="popup-emoji">🥗</div>
+      <h3>Plan your week.<br>Shop <span class="grad">smarter.</span></h3>
+      <p>Pick recipes, fill your weekly planner and get one free grocery checklist.</p>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var box = document.getElementById("popup");
+  if (!box) return;
+  try { if (sessionStorage.getItem("mm_popup")) return; } catch (e) {}
+  setTimeout(function () { box.classList.add("show"); }, 800);
+  function closeIt() {
+    box.classList.remove("show");
+    try { sessionStorage.setItem("mm_popup", "1"); } catch (e) {}
+  }
+  document.getElementById("popupClose").addEventListener("click", closeIt);
+  box.addEventListener("click", function (e) { if (e.target === box) closeIt(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeIt(); });
+})();
+</script>
+{% endif %}

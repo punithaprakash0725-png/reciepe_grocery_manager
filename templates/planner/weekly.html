@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Weekly Meal Planner</h1>
+<p>Week starting {{ week_start }}</p>
+<div class="form-card"><h2>Add a meal</h2>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="button">Save meal</button></form></div>
+<h2>Your week</h2>
+<div class="table-wrap"><table>
+<tr><th>Day</th>{% for meal in meals %}<th>{{ meal }}</th>{% endfor %}</tr>
+{% for row in rows %}<tr><th>{{ row.day }}</th>
+{% for cell in row.cells %}<td>{% if cell.plan %}{{ cell.plan.recipe.title }} <small>({{ cell.plan.recipe.cooking_time }} min)</small>
+<form class="inline" method="post" action="{% url 'delete_meal' cell.plan.pk %}">{% csrf_token %}<button class="linkbtn" title="Remove">✕</button></form>{% else %}—{% endif %}</td>{% endfor %}
+</tr>{% endfor %}
+</table></div>
+<p class="hint">Tip: pick a day, meal and recipe above. Saving again for the same slot replaces it. The grocery list updates from this week's meals.</p>
+{% endblock %}

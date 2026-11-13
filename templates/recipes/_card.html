@@ -1,0 +1,142 @@
+{% load static %}
+
+<div class="recipe-card">
+
+    <!-- Recipe Image -->
+    <div class="recipe-image-container">
+
+        {% if recipe.photo_url %}
+            <img
+                src="{{ recipe.photo_url }}"
+                alt="{{ recipe.title }}"
+                class="recipe-image"
+                loading="lazy"
+                onerror="this.onerror=null;this.src='https://placehold.co/600x400/e8f1e8/246b45?text=MealMate+Recipe';"
+            >
+        {% else %}
+            <img
+                src="https://placehold.co/600x400/e8f1e8/246b45?text=MealMate+Recipe"
+                alt="{{ recipe.title }}"
+                class="recipe-image"
+            >
+        {% endif %}
+
+        <span class="recipe-category">
+            {{ recipe.category }}
+        </span>
+
+    </div>
+
+    <!-- Recipe Information -->
+    <div class="recipe-content">
+
+        <h3 class="recipe-title">
+            {{ recipe.title }}
+        </h3>
+
+        <div class="recipe-time">
+            <span>⏱</span>
+            <span>
+                {{ recipe.cooking_time }} minutes
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+/* Main Recipe Card */
+
+.recipe-card {
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #eeeeee;
+    height: 100%;
+}
+
+.recipe-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+/* Image Section */
+
+.recipe-image-container {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+    background: #edf3ed;
+}
+
+.recipe-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.recipe-card:hover .recipe-image {
+    transform: scale(1.06);
+}
+
+/* Category Badge */
+
+.recipe-category {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #ffffff;
+    color: #246b45;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* Recipe Details */
+
+.recipe-content {
+    padding: 18px;
+}
+
+.recipe-title {
+    color: #263b30;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 0 13px;
+    line-height: 1.4;
+}
+
+.recipe-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #777777;
+    font-size: 14px;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 600px) {
+    .recipe-image-container {
+        height: 160px;
+    }
+
+    .recipe-title {
+        font-size: 16px;
+    }
+
+    .recipe-content {
+        padding: 13px;
+    }
+}
+
+</style>
