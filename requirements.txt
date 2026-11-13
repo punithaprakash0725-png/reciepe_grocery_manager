@@ -1,1 +1,5 @@
-Django>=5.2,<6.0
+django>=4.0
+gunicorn
+whitenoise
+dj-database-url  # (Optional, but recommended if using Render's PostgreSQL)
+psycopg2-binary  # (Optional, if switching from SQLite to PostgreSQL)
